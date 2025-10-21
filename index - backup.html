@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeleKu - Aplikasi Budidaya Lele</title>
+    <style>
+        /* CSS SEDERHANA - NANTI KITA PERBAIKI */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fffe 0%, #f0f9ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2E8B57, #3CB371);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .welcome-card {
+            background: #f8fdf8;
+            border: 2px solid #e0f0e0;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(46, 139, 87, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            color: #2E8B57;
+            margin-bottom: 0.5rem;
+        }
+        
+        .next-steps {
+            background: #fff9e6;
+            border: 2px solid #ffe066;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .next-steps h3 {
+            color: #e67e22;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #2E8B57;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0.5rem;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #228B22;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐟 LeleKu</h1>
+            <p>Aplikasi Manajemen Budidaya Lele Profesional</p>
+        </div>
+        
+        <div class="content">
+            <div class="welcome-card">
+                <h2>Selamat Datang di LeleKu! 🎉</h2>
+                <p>Aplikasi sedang dalam pengembangan. Fitur-fitur amazing akan segera hadir!</p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Dashboard Kolam</h3>
+                    <p>Monitor multiple kolam dalam satu tampilan</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🍽️</div>
+                    <h3>Kalkulator Pakan</h3>
+                    <p>Auto-calculate takaran pakan harian</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Analisis Ekonomi</h3>
+                    <p>BEP, ROI, dan profit calculation</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Monitoring Growth</h3>
+                    <p>Tracking pertumbuhan lele mingguan</p>
+                </div>
+            </div>
+            
+            <div class="next-steps">
+                <h3>🚀 Next Steps</h3>
+                <p>Kita akan membangun fitur-fitur berikut secara bertahap:</p>
+                <ul style="text-align: left; margin: 1rem 0;">
+                    <li>Login System & User Management</li>
+                    <li>Form Tambah Kolam Baru</li>
+                    <li>SOP Metode Prof. Gembong</li>
+                    <li>LocalStorage Data Management</li>
+                </ul>
+                
+                <div style="margin-top: 1.5rem;">
+                    <a href="#" class="btn" onclick="showDemo()">🎮 Coba Demo</a>
+                    <a href="#" class="btn" style="background: #1E90FF;">📚 Dokumentasi</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showDemo() {
+            alert('🚀 Demo akan segera hadir! Sedang dalam development.');
+        }
+        
+        // Console welcome message
+        console.log('🐟 LeleKu App Loaded Successfully!');
+        console.log('Repository: https://github.com/leywonk/leleku-app');
+    </script>
+</body>
+</html>

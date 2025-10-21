@@ -5,185 +5,746 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeleKu - Aplikasi Budidaya Lele</title>
     <style>
-        /* CSS SEDERHANA - NANTI KITA PERBAIKI */
+        /* RESET & VARIABLES */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         
+        :root {
+            --primary-green: #2E8B57;
+            --light-green: #3CB371;
+            --dark-green: #228B22;
+            --background: #f8fffe;
+            --card-bg: #FFFFFF;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #E0E0E0;
+            --success: #28A745;
+            --warning: #FFC107;
+            --danger: #DC3545;
+            --info: #17A2B8;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f8fffe 0%, #f0f9ff 100%);
-            min-height: 100vh;
-            padding: 20px;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
         }
         
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #2E8B57, #3CB371);
+        /* HEADER */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
             color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        /* MAIN CONTENT */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 2rem;
-            text-align: center;
         }
         
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .content {
-            padding: 2rem;
-        }
-        
-        .welcome-card {
-            background: #f8fdf8;
-            border: 2px solid #e0f0e0;
-            border-radius: 10px;
-            padding: 2rem;
-            text-align: center;
+        /* DASHBOARD HEADER */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 2rem;
         }
         
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
         }
         
-        .feature-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
+        .btn-primary {
+            background: var(--primary-green);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--dark-green);
+            transform: translateY(-2px);
+        }
+        
+        /* PONDS GRID */
+        .ponds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .pond-card {
+            background: var(--card-bg);
+            border-radius: 12px;
             padding: 1.5rem;
-            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .feature-card:hover {
+        .pond-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(46, 139, 87, 0.2);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
         }
         
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .feature-card h3 {
-            color: #2E8B57;
+        .pond-card h3 {
+            color: var(--primary-green);
             margin-bottom: 0.5rem;
         }
         
-        .next-steps {
-            background: #fff9e6;
-            border: 2px solid #ffe066;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-top: 2rem;
+        .pond-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
         }
         
-        .next-steps h3 {
-            color: #e67e22;
+        .progress-bar {
+            background: var(--border);
+            border-radius: 10px;
+            height: 8px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--light-green), var(--primary-green));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-light);
+        }
+        
+        .empty-state h3 {
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+        
+        /* QUICK STATS */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .form-group {
             margin-bottom: 1rem;
         }
         
-        .btn {
-            display: inline-block;
-            background: #2E8B57;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
             font-weight: 600;
-            margin: 0.5rem;
-            transition: background 0.3s ease;
+            color: var(--text);
         }
         
-        .btn:hover {
-            background: #228B22;
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        
+        /* HELP & WARNING TEXT */
+        .help-text {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+        
+        .warning-text {
+            font-size: 0.8rem;
+            color: var(--danger);
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+        
+        .recommendation-text {
+            font-size: 0.8rem;
+            color: var(--info);
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+        
+        .success-text {
+            font-size: 0.8rem;
+            color: var(--success);
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+        
+        /* CUSTOM DIMENSIONS */
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        
+        .mt-1 {
+            margin-top: 1rem;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🐟 LeleKu</h1>
-            <p>Aplikasi Manajemen Budidaya Lele Profesional</p>
+    <!-- HEADER -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo">🐟 LeleKu</div>
+            <div class="user-info">
+                <span>Halo, Peternak!</span>
+            </div>
         </div>
-        
-        <div class="content">
-            <div class="welcome-card">
-                <h2>Selamat Datang di LeleKu! 🎉</h2>
-                <p>Aplikasi sedang dalam pengembangan. Fitur-fitur amazing akan segera hadir!</p>
-            </div>
-            
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Dashboard Kolam</h3>
-                    <p>Monitor multiple kolam dalam satu tampilan</p>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- DASHBOARD HEADER -->
+        <div class="dashboard-header">
+            <h1>Dashboard Kolam Lele</h1>
+            <button class="btn btn-primary" onclick="showModal('addPondModal')">
+                + Tambah Kolam Baru
+            </button>
+        </div>
+
+        <!-- QUICK STATS -->
+        <div class="quick-stats" id="quickStats">
+            <!-- Stats will be populated by JavaScript -->
+        </div>
+
+        <!-- PONDS GRID -->
+        <div class="ponds-grid" id="pondsGrid">
+            <!-- Pond cards will be populated by JavaScript -->
+        </div>
+
+        <!-- EMPTY STATE (shown when no ponds) -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <h3>Belum ada kolam</h3>
+            <p>Mulai dengan membuat kolam pertama Anda</p>
+            <button class="btn btn-primary mt-1" onclick="showModal('addPondModal')">
+                Buat Kolam Pertama
+            </button>
+        </div>
+    </div>
+
+    <!-- ADD POND MODAL -->
+    <div class="modal" id="addPondModal">
+        <div class="modal-content">
+            <h2>Tambah Kolam Baru</h2>
+            <form id="addPondForm">
+                <div class="form-group">
+                    <label>Nama Kolam:</label>
+                    <input type="text" class="form-control" id="pondName" required placeholder="Contoh: Kolam Utama">
                 </div>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">🍽️</div>
-                    <h3>Kalkulator Pakan</h3>
-                    <p>Auto-calculate takaran pakan harian</p>
+                <div class="form-group">
+                    <label>Jenis Kolam:</label>
+                    <select class="form-control" id="pondType" required onchange="updatePondRecommendation()">
+                        <option value="d2_bulat">Bulat Diameter 2m (D2)</option>
+                        <option value="d1_bulat">Bulat Diameter 1m (D1)</option>
+                        <option value="kotak">Kotak / Persegi</option>
+                        <option value="persegi_panjang">Persegi Panjang</option>
+                        <option value="custom">Custom / Lainnya</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="customDimensions" style="display: none;">
+                    <label>Ukuran Kolam (meter):</label>
+                    <div class="dimensions-grid">
+                        <input type="number" class="form-control" id="pondLength" placeholder="Panjang" step="0.1" min="0.5" oninput="validateFishCount()">
+                        <input type="number" class="form-control" id="pondWidth" placeholder="Lebar" step="0.1" min="0.5" oninput="validateFishCount()">
+                    </div>
+                    <div class="help-text">Isi panjang dan lebar kolam dalam meter</div>
                 </div>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">💰</div>
-                    <h3>Analisis Ekonomi</h3>
-                    <p>BEP, ROI, dan profit calculation</p>
+                <div class="form-group">
+                    <label>Metode Budidaya:</label>
+                    <select class="form-control" id="farmingMethod" required onchange="updatePondRecommendation()">
+                        <option value="gembong">Metode Prof. Gembong</option>
+                        <option value="semi_kocor">Semi Kocor</option>
+                    </select>
                 </div>
                 
-                <div class="feature-card">
-                    <div class="feature-icon">📈</div>
-                    <h3>Monitoring Growth</h3>
-                    <p>Tracking pertumbuhan lele mingguan</p>
+                <div class="form-group">
+                    <label>Jumlah Bibit:</label>
+                    <input type="number" class="form-control" id="fishCount" min="1" value="800" required oninput="validateFishCount()">
+                    <div id="fishCountHelp" class="help-text">
+                        Rekomendasi: 600-1000 ekor untuk D2
+                    </div>
+                    <div id="fishCountWarning" class="warning-text" style="display: none;"></div>
                 </div>
-            </div>
-            
-            <div class="next-steps">
-                <h3>🚀 Next Steps</h3>
-                <p>Kita akan membangun fitur-fitur berikut secara bertahap:</p>
-                <ul style="text-align: left; margin: 1rem 0;">
-                    <li>Login System & User Management</li>
-                    <li>Form Tambah Kolam Baru</li>
-                    <li>SOP Metode Prof. Gembong</li>
-                    <li>LocalStorage Data Management</li>
-                </ul>
                 
-                <div style="margin-top: 1.5rem;">
-                    <a href="#" class="btn" onclick="showDemo()">🎮 Coba Demo</a>
-                    <a href="#" class="btn" style="background: #1E90FF;">📚 Dokumentasi</a>
+                <div class="form-group">
+                    <label>Tanggal Tebar:</label>
+                    <input type="date" class="form-control" id="startDate" required>
                 </div>
-            </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="hideModal('addPondModal')">Batal</button>
+                    <button type="submit" class="btn btn-success">Buat Kolam</button>
+                </div>
+            </form>
         </div>
     </div>
 
     <script>
-        function showDemo() {
-            alert('🚀 Demo akan segera hadir! Sedang dalam development.');
+        // DATA MANAGEMENT
+        let lelekuDB = {
+            ponds: [],
+            settings: {
+                currentUser: 'leywonk'
+            }
+        };
+
+        // Data rekomendasi berdasarkan jenis kolam dan metode
+        const pondRecommendations = {
+            'd2_bulat': {
+                volume: 1.5,
+                area: 3.14,
+                recommendations: {
+                    'gembong': { min: 600, max: 1000, optimal: 800 },
+                    'semi_kocor': { min: 800, max: 1500, optimal: 1200 }
+                }
+            },
+            'd1_bulat': {
+                volume: 0.4,
+                area: 0.78,
+                recommendations: {
+                    'gembong': { min: 150, max: 250, optimal: 200 },
+                    'semi_kocor': { min: 200, max: 400, optimal: 300 }
+                }
+            },
+            'kotak': {
+                volume: 1.0,
+                area: 2.0,
+                recommendations: {
+                    'gembong': { min: 400, max: 700, optimal: 550 },
+                    'semi_kocor': { min: 500, max: 900, optimal: 700 }
+                }
+            },
+            'persegi_panjang': {
+                volume: 2.0,
+                area: 4.0,
+                recommendations: {
+                    'gembong': { min: 800, max: 1400, optimal: 1100 },
+                    'semi_kocor': { min: 1000, max: 1800, optimal: 1400 }
+                }
+            },
+            'custom': {
+                volume: null,
+                area: null,
+                recommendations: {
+                    'gembong': { min: 300, max: 500, optimal: 400 }, // per m²
+                    'semi_kocor': { min: 400, max: 600, optimal: 500 } // per m²
+                }
+            }
+        };
+
+        // LOAD SAVED DATA
+        function loadData() {
+            const saved = localStorage.getItem('lelekuDB');
+            if (saved) {
+                lelekuDB = JSON.parse(saved);
+            }
+            renderDashboard();
         }
-        
-        // Console welcome message
-        console.log('🐟 LeleKu App Loaded Successfully!');
-        console.log('Repository: https://github.com/leywonk/leleku-app');
+
+        // SAVE DATA
+        function saveData() {
+            localStorage.setItem('lelekuDB', JSON.stringify(lelekuDB));
+        }
+
+        // MODAL MANAGEMENT
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            // Set today's date as default
+            document.getElementById('startDate').valueAsDate = new Date();
+            // Update rekomendasi
+            updatePondRecommendation();
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // UPDATE REKOMENDASI BERDASARKAN JENIS KOLAM & METODE
+        function updatePondRecommendation() {
+            const pondType = document.getElementById('pondType').value;
+            const method = document.getElementById('farmingMethod').value;
+            const helpText = document.getElementById('fishCountHelp');
+            const customDims = document.getElementById('customDimensions');
+            
+            // Tampilkan/sembunyikan input custom dimensions
+            if (pondType === 'custom') {
+                customDims.style.display = 'block';
+            } else {
+                customDims.style.display = 'none';
+            }
+            
+            // Update rekomendasi teks
+            const rec = pondRecommendations[pondType].recommendations[method];
+            
+            if (pondType === 'custom') {
+                helpText.innerHTML = `Rekomendasi: ${rec.min}-${rec.max} ekor per m²`;
+            } else {
+                helpText.innerHTML = `Rekomendasi: ${rec.min}-${rec.max} ekor (Optimal: ${rec.optimal} ekor)`;
+            }
+            
+            // Auto-set optimal value untuk kolam standard
+            if (pondType !== 'custom') {
+                document.getElementById('fishCount').value = rec.optimal;
+            }
+            
+            // Validasi ulang
+            validateFishCount();
+        }
+
+        // VALIDASI JUMLAH BIBIT
+        function validateFishCount() {
+            const pondType = document.getElementById('pondType').value;
+            const method = document.getElementById('farmingMethod').value;
+            const fishCount = parseInt(document.getElementById('fishCount').value);
+            const warningDiv = document.getElementById('fishCountWarning');
+            
+            if (!fishCount || fishCount < 1) {
+                warningDiv.style.display = 'none';
+                return true;
+            }
+            
+            const rec = pondRecommendations[pondType].recommendations[method];
+            let warningMessage = '';
+            let warningClass = 'warning-text';
+            
+            if (pondType === 'custom') {
+                // Untuk custom, hitung berdasarkan luas
+                const length = parseFloat(document.getElementById('pondLength').value) || 1;
+                const width = parseFloat(document.getElementById('pondWidth').value) || 1;
+                const area = length * width;
+                const maxRecommended = Math.round(rec.max * area);
+                const minRecommended = Math.round(rec.min * area);
+                const optimalRecommended = Math.round(rec.optimal * area);
+                
+                if (fishCount > maxRecommended * 1.5) {
+                    warningMessage = `⚠️ PERINGATAN: Jumlah bibit terlalu tinggi! Max recommended: ${maxRecommended} ekor`;
+                    warningClass = 'warning-text';
+                } else if (fishCount > maxRecommended) {
+                    warningMessage = `💡 REKOMENDASI: Untuk luas ${area.toFixed(1)}m², optimal: ${minRecommended}-${maxRecommended} ekor`;
+                    warningClass = 'recommendation-text';
+                } else if (fishCount < minRecommended) {
+                    warningMessage = `💡 REKOMENDASI: Bisa tingkatkan ke ${minRecommended}-${maxRecommended} ekor`;
+                    warningClass = 'recommendation-text';
+                } else {
+                    warningMessage = `✅ OPTIMAL: Jumlah bibit perfect untuk luas ${area.toFixed(1)}m²`;
+                    warningClass = 'success-text';
+                }
+            } else {
+                // Untuk kolam standard
+                if (fishCount > rec.max * 1.5) {
+                    warningMessage = `⚠️ PERINGATAN: Jumlah bibit terlalu tinggi! Max recommended: ${rec.max} ekor`;
+                    warningClass = 'warning-text';
+                } else if (fishCount > rec.max) {
+                    warningMessage = `💡 REKOMENDASI: Optimal: ${rec.min}-${rec.max} ekor`;
+                    warningClass = 'recommendation-text';
+                } else if (fishCount < rec.min) {
+                    warningMessage = `💡 REKOMENDASI: Bisa tingkatkan ke ${rec.min}-${rec.max} ekor`;
+                    warningClass = 'recommendation-text';
+                } else {
+                    warningMessage = `✅ OPTIMAL: Jumlah bibit perfect!`;
+                    warningClass = 'success-text';
+                }
+            }
+            
+            if (warningMessage) {
+                warningDiv.innerHTML = warningMessage;
+                warningDiv.className = warningClass;
+                warningDiv.style.display = 'block';
+            } else {
+                warningDiv.style.display = 'none';
+            }
+            
+            return !warningMessage.includes('⚠️ PERINGATAN');
+        }
+
+        // RENDER DASHBOARD
+        function renderDashboard() {
+            renderQuickStats();
+            renderPondsGrid();
+        }
+
+        function renderQuickStats() {
+            const stats = document.getElementById('quickStats');
+            const activePonds = lelekuDB.ponds.filter(p => p.status === 'active').length;
+            const totalFish = lelekuDB.ponds.reduce((sum, pond) => sum + pond.fishCount, 0);
+            const totalInvestment = lelekuDB.ponds.reduce((sum, pond) => sum + (pond.fishCount * 1000), 0); // Estimasi
+            
+            stats.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${lelekuDB.ponds.length}</div>
+                    <div class="stat-label">Total Kolam</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${activePonds}</div>
+                    <div class="stat-label">Kolam Aktif</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${totalFish.toLocaleString()}</div>
+                    <div class="stat-label">Total Lele</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${calculateTotalDays()}</div>
+                    <div class="stat-label">Hari Budidaya</div>
+                </div>
+            `;
+        }
+
+        function renderPondsGrid() {
+            const grid = document.getElementById('pondsGrid');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (lelekuDB.ponds.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            grid.innerHTML = lelekuDB.ponds.map(pond => {
+                const age = calculatePondAge(pond.startDate);
+                const progress = calculateProgress(pond);
+                const areaInfo = pond.dimensions ? `${pond.dimensions.area.toFixed(1)}m²` : '';
+                
+                return `
+                    <div class="pond-card">
+                        <h3>${pond.name}</h3>
+                        <div class="pond-info">
+                            <span>Usia: ${age} hari</span>
+                            <span>Progress: ${progress}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                        <div class="pond-info">
+                            <span>${pond.fishCount.toLocaleString()} ekor</span>
+                            <span>${getPondTypeName(pond.pondType)}</span>
+                        </div>
+                        <div class="pond-info">
+                            <span>${getMethodName(pond.method)}</span>
+                            <span>${areaInfo}</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="viewPondDetail('${pond.id}')" style="width: 100%; margin-top: 1rem;">
+                            Kelola Kolam
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // UTILITY FUNCTIONS
+        function calculatePondAge(startDate) {
+            const start = new Date(startDate);
+            const now = new Date();
+            const diffTime = Math.abs(now - start);
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+
+        function calculateProgress(pond) {
+            const age = calculatePondAge(pond.startDate);
+            const targetDays = 75; // 2.5 bulan
+            return Math.min(Math.round((age / targetDays) * 100), 100);
+        }
+
+        function calculateTotalDays() {
+            if (lelekuDB.ponds.length === 0) return 0;
+            const oldestPond = lelekuDB.ponds.reduce((oldest, pond) => {
+                return new Date(pond.startDate) < new Date(oldest.startDate) ? pond : oldest;
+            });
+            return calculatePondAge(oldestPond.startDate);
+        }
+
+        function getMethodName(method) {
+            const methods = {
+                'gembong': 'Prof. Gembong',
+                'semi_kocor': 'Semi Kocor'
+            };
+            return methods[method] || method;
+        }
+
+        function getPondTypeName(pondType) {
+            const types = {
+                'd2_bulat': 'D2 Bulat',
+                'd1_bulat': 'D1 Bulat', 
+                'kotak': 'Kotak',
+                'persegi_panjang': 'Persegi Panjang',
+                'custom': 'Custom'
+            };
+            return types[pondType] || pondType;
+        }
+
+        function viewPondDetail(pondId) {
+            alert(`Membuka detail kolam: ${pondId}\n\nFitur detail kolam akan segera hadir!\n\nKita akan tambahkan:\n- Monitoring pertumbuhan\n- Kalkulator pakan\n- Analisis ekonomi\n- Dan fitur lainnya!`);
+        }
+
+        // FORM HANDLING
+        document.getElementById('addPondForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validasi final
+            if (!validateFishCount()) {
+                if (!confirm('⚠️ Jumlah bibit melebihi rekomendasi. Yakin ingin lanjut?')) {
+                    return;
+                }
+            }
+            
+            const pondType = document.getElementById('pondType').value;
+            let dimensions = null;
+            
+            if (pondType === 'custom') {
+                const length = parseFloat(document.getElementById('pondLength').value);
+                const width = parseFloat(document.getElementById('pondWidth').value);
+                if (length && width) {
+                    dimensions = { 
+                        length: length, 
+                        width: width, 
+                        area: length * width 
+                    };
+                }
+            }
+            
+            const pondData = {
+                id: 'pond_' + Date.now(),
+                name: document.getElementById('pondName').value,
+                fishCount: parseInt(document.getElementById('fishCount').value),
+                startDate: document.getElementById('startDate').value,
+                method: document.getElementById('farmingMethod').value,
+                pondType: pondType,
+                dimensions: dimensions,
+                status: 'active',
+                createdAt: new Date().toISOString()
+            };
+
+            lelekuDB.ponds.push(pondData);
+            saveData();
+            hideModal('addPondModal');
+            renderDashboard();
+            
+            // Reset form
+            this.reset();
+            document.getElementById('fishCount').value = 800;
+            document.getElementById('farmingMethod').value = 'gembong';
+            document.getElementById('pondType').value = 'd2_bulat';
+            document.getElementById('customDimensions').style.display = 'none';
+            
+            alert('🎉 Kolam berhasil dibuat!\n\nSelanjutnya kita akan bangun fitur:\n- Monitoring pertumbuhan lele\n- Kalkulator pakan otomatis\n- Analisis BEP & ROI');
+        });
+
+        // INITIALIZE APP
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            console.log('🐟 LeleKu Dashboard Loaded!');
+            console.log('Repository: https://github.com/leywonk/leleku-app');
+        });
     </script>
 </body>
 </html>
